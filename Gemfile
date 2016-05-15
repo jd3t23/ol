@@ -10,7 +10,10 @@ gem 'spring', :group => :development
 
 gem 'pg'
 
-
+group :test, :development do
+  gem "rspec-rails"
+  gem "factory_girl_rails"
+end
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

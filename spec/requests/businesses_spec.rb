@@ -19,12 +19,19 @@ RSpec.describe "Businesses", type: :request do
 
     before(:each) do
       @business = FactoryGirl.create(:business)
-      get business_path(id: @business.id)
     end
 
-    it "returns json, with successful status (200)" do
+    it "returns json with successful status (200), when sending existing business id" do
+      get business_path(id: @business.id)
       expect(response).to be_success
       expect(response.content_type).to eq("application/json")
+    end
+
+    it 'returns json with bad request status (400), when sending business id that does not exist' do
+      get business_path(id: @business.id+1)
+      expect(response).to be_bad_request
+      expect(response.content_type).to eq("application/json")
+      expect(response.body).to eq('{"error":"Record Not Found with that ID","status":400}')
     end
   end
 end

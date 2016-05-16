@@ -1,28 +1,38 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+OL - Test Project
 
-Things you may want to cover:
+Deployment Instructions:
 
-* Ruby version
+-Ruby/Rails based
 
-* System dependencies
+-Uses PostgreSQL as the database
 
-* Configuration
+-After installing Rails and PostgreSQL, create/migrate the database.
 
-* Database creation
+-Launch the Rails server.
 
-* Database initialization
+---------------------------------------------------------------------------
 
-* How to run the test suite
+Application Instuctions/Assumptions:
 
-* Services (job queues, cache servers, search engines, etc.)
+  Endpoints:
 
-* Deployment instructions
+	(GET) **YOUR_HOST**/businesses
+          Optional Parameters: ("limit", "offset")
+            (e.g **YOUR_HOST**/businesses?limit=34&offset=13424)
+          Description: JSON response of all businesses           
+          *The pagination works by accepting an offset param(the number of records you are skipping ahead of) 
+            and a limit param (the number of records you are returning i.e page size).
+     
+     -----------------------------------------
 
-* ...
+	(GET) **YOUR_HOST**/business/:id
+          Required Parameters: ("id")
+            (e.g **YOUR_HOST**/business/1)
+          Description: JSON response of a single business
+
+     -----------------------------------------
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+

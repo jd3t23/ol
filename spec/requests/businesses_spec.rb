@@ -46,7 +46,18 @@ RSpec.describe "Businesses", type: :request do
       get business_path(id: @business.id+1)
       expect(response).to be_bad_request
       expect(response.content_type).to eq("application/json")
-      expect(response.body).to eq('{"error":"Record Not Found with that ID","status":400}')
+      expect(response.body).to eq('{"error":"Record Not Found with That ID","status":400}')
     end
+  end
+
+  describe "GET undefined resource" do 
+
+    it 'returns json with not found status (404)' do
+      get '/undefined_resource'
+      expect(response).to be_not_found
+      expect(response.content_type).to eq("application/json")
+      expect(response.body).to eq('{"error":"Resource Not Found","status":404}')
+    end
+
   end
 end

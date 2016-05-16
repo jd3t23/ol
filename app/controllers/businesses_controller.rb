@@ -4,8 +4,7 @@ class BusinessesController < ApplicationController
   # GET /businesses
   # GET /businesses.json
   def index
-    @businesses = Business.all
-
+    @businesses = Business.all.offset(offset).limit(limit)
     render json: @businesses
   end
 
@@ -22,6 +21,6 @@ class BusinessesController < ApplicationController
     end
 
     def business_params
-      params.require(:business).permit(:uuid, :name, :address, :address2, :city, :state, :zip, :country, :phone, :website)
+      params.require(:business).permit(:uuid, :name, :address, :address2, :city, :state, :zip, :country, :phone, :website, :page)
     end
 end

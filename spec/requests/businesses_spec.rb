@@ -5,7 +5,7 @@ RSpec.describe "Businesses", type: :request do
   describe "GET #index" do
 
     before(:each) do
-      @businesses = 5.times.map { FactoryGirl.create(:business) }
+      @businesses = 101.times.map { FactoryGirl.create(:business) }
       get businesses_path
     end
 
@@ -17,6 +17,25 @@ RSpec.describe "Businesses", type: :request do
     it 'renders the json response containing all columns from the csv' do
       column_headers = 'id,uuid,name,address,address2,city,state,zip,country,phone,website,created_at'.split(',')
       JSON.parse(response.body).each { |json_response| expect(column_headers-json_response.keys).to be_empty }
+    end
+
+    context 'paginates the response' do
+
+      it 'returns 50 records if limit param is blank' do
+        expect(JSON.parse(response.body).length).to eq(50)
+      end
+
+      it 'returns number of records in limit param' do
+        get '/businesses?limit=100'
+        expect(JSON.parse(response.body).length).to eq(100)
+      end
+
+      it 'skips the number of records in offset param' do
+        get '/businesses?offset=100'
+        expect(JSON.parse(response.body).length).to eq(1)
+        expect(JSON.parse(response.body).first["id"]).to eq(@businesses.map(&:id)[100])
+      end
+
     end
   end
 
@@ -46,7 +65,7 @@ RSpec.describe "Businesses", type: :request do
       get business_path(id: @business.id+1)
       expect(response).to be_bad_request
       expect(response.content_type).to eq("application/json")
-      expect(response.body).to eq('{"error":"Record Not Found with That ID","status":400}')
+      expect(response.body).to eq('{"error":"Record Not Found With That ID","status":400}')
     end
   end
 

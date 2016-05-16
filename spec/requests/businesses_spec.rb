@@ -25,15 +25,24 @@ RSpec.describe "Businesses", type: :request do
         expect(JSON.parse(response.body).length).to eq(50)
       end
 
-      it 'returns number of records in limit param' do
+      it 'returns number of records in the limit param' do
         get '/businesses?limit=100'
         expect(JSON.parse(response.body).length).to eq(100)
       end
 
-      it 'skips the number of records in offset param' do
+      it 'skips the number of records in the offset param' do
         get '/businesses?offset=100'
         expect(JSON.parse(response.body).length).to eq(1)
-        expect(JSON.parse(response.body).first["id"]).to eq(@businesses.map(&:id)[100])
+        id_of_101st_business = @businesses.map(&:id)[100]
+        expect(JSON.parse(response.body).first["id"]).to eq(id_of_101st_business)
+      end
+
+      it 'returns the number of records in the limit param and skips the number of records in the offset param' do
+        get '/businesses?limit=10&offset=50'
+        expect(JSON.parse(response.body).length).to eq(10)
+        ids_of_businesses_50_through_60 = @businesses.map(&:id)[50..59]
+        expect(JSON.parse(response.body).map { |business_response| business_response["id"] })
+                                                                          .to eq(ids_of_businesses_50_through_60)
       end
 
     end

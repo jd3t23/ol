@@ -15,38 +15,6 @@ class BusinessesController < ApplicationController
     render json: @business
   end
 
-  # POST /businesses
-  # POST /businesses.json
-  def create
-    @business = Business.new(business_params)
-
-    if @business.save
-      render json: @business, status: :created, location: @business
-    else
-      render json: @business.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /businesses/1
-  # PATCH/PUT /businesses/1.json
-  def update
-    @business = Business.find(params[:id])
-
-    if @business.update(business_params)
-      head :no_content
-    else
-      render json: @business.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /businesses/1
-  # DELETE /businesses/1.json
-  def destroy
-    @business.destroy
-
-    head :no_content
-  end
-
   private
 
     def set_business
